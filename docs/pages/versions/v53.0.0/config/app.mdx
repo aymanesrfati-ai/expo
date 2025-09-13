@@ -1,24 +1,64 @@
----
-title: app.json / app.config.js
-description: A reference of available properties in Expo app config.
-maxHeadingDepth: 5
----
+  import React from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-import { BookOpen02Icon } from '@expo/styleguide-icons/outline/BookOpen02Icon';
+function HomeScreen({ navigation }) {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>تطبيق الكراء</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("Owner")}
+      >
+        <Text style={styles.buttonText}>أنا مالك دار</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("Renter")}
+      >
+        <Text style={styles.buttonText}>أنا مكتري</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
 
-import schema from '~/public/static/schemas/v53.0.0/app-config-schema.json';
-import AppConfigSchemaTable from '~/ui/components/AppConfigSchemaTable';
-import { BoxLink } from '~/ui/components/BoxLink';
+function OwnerScreen() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>صفحة المالك</Text>
+      <Text>هنا غادي نزيدو فورم لإضافة دار جديدة 👌</Text>
+    </View>
+  );
+}
 
-The following is a list of properties that are available for you under the `"expo"` key in **app.json** or **app.config.json**. These properties can be passed to the top level object of **app.config.js** or **app.config.ts**.
+function RenterScreen() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>صفحة المكتري</Text>
+      <Text>هنا غادي نزيدو البحث على الديور 🔍</Text>
+    </View>
+  );
+}
 
-<BoxLink
-  title="Configuration with app config"
-  description="For information on app configuration, the differences between various app config files, and how to use them dynamically."
-  href="/workflow/configuration/"
-  Icon={BookOpen02Icon}
-/>
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-## Properties
+const Stack = createStackNavigator();
 
-<AppConfigSchemaTable schema={schema} />
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: true }}>
+        <Stack.Screen name="الرئيسية" component={HomeScreen} />
+        <Stack.Screen name="Owner" component={OwnerScreen} />
+        <Stack.Screen name="Renter" component={RenterScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#fff" },
+  title: { fontSize: 28, fontWeight: "700", marginBottom: 20 },
+  button: { backgroundColor: "#007AFF", paddingVertical: 14, paddingHorizontal: 24, borderRadius: 10, marginVertical: 10 },
+  buttonText: { color: "#fff", fontSize: 18 }
+});
